@@ -1,4 +1,4 @@
-# PortfolioProjects
+# Data Analyst Portfolio Projects
 This Repository will hold all of the code and queries from SQL Projects that I would like to showcase.
 
 For my full Portfolio, including PowerBI Visualization Projects, please visit my LinkedIn account at:
