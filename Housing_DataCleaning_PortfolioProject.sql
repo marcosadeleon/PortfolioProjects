@@ -2,7 +2,7 @@
 Housing Data Cleaning / Manipulation
 
 Skills used:
-	Converting Data Types
+    Converting Data Types
     Altering Table
     Manipulating String Fields
     Removing Duplicates
@@ -32,7 +32,7 @@ SET
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 -- OwnerAddress column is essentially interchangeable with PropertyAddress column now that this is the owner's new address
-	-- Will use OwnerAddress column to fill blanks in PropertyAddress column
+-- Will use OwnerAddress column to fill blanks in PropertyAddress column
 
 -- IS NULL returns no results
 SELECT *
@@ -60,7 +60,7 @@ SELECT
 FROM
 	nashvillehousing
 WHERE
-    PropertyAddress = '';
+        PropertyAddress = '';
 
  -----------------------------------------------------------------------------------------------------------------------------------------------   
 
@@ -73,15 +73,15 @@ FROM
 	nashvillehousing;
 
 SELECT
-	-- returns all string up until the first ','
+      -- returns all string up until the first ','
 	SUBSTRING(PropertyAddress, 1, Locate(',', PropertyAddress) -1) as Address,
-    -- Alternatively: SUBSTRING_INDEX(PropertyAddress, ',', 1) AS Address,
+      -- Alternatively: SUBSTRING_INDEX(PropertyAddress, ',', 1) AS Address,
     
     -- returns all string between first ',' and second ','
-    SUBSTRING(PropertyAddress, Locate(',', PropertyAddress) + 1 , (Locate(',', PropertyAddress, Locate(',', PropertyAddress) + 1 ) + 1 ) - (Locate(',', PropertyAddress) + 1)) AS City,
+        SUBSTRING(PropertyAddress, Locate(',', PropertyAddress) + 1 , (Locate(',', PropertyAddress, Locate(',', PropertyAddress) + 1 ) + 1 ) - (Locate(',', PropertyAddress) + 1)) AS City,
     
     -- returns all string after the second ','
-    SUBSTRING(PropertyAddress, Locate(',', PropertyAddress, Locate(',', PropertyAddress) + 1 ) + 1 , LENGTH(PropertyAddress)) as State
+        SUBSTRING(PropertyAddress, Locate(',', PropertyAddress, Locate(',', PropertyAddress) + 1 ) + 1 , LENGTH(PropertyAddress)) as State
 FROM
 	NashvilleHousing;
     
@@ -110,8 +110,8 @@ SET PropertySplitState = SUBSTRING(PropertyAddress, Locate(',', PropertyAddress,
 -- Will standardize this column as "Yes/No"
 
 SELECT
-	Distinct(SoldAsVacant),
-    Count(SoldAsVacant)
+        Distinct(SoldAsVacant),
+        Count(SoldAsVacant)
 FROM
 	nashvillehousing
 GROUP BY
