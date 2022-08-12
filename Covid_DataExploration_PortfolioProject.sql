@@ -2,7 +2,7 @@
 Covid-19 Data Exploration
 
 Skills used:
-	CTE's
+    CTE's
     Temp Tables
     Creating Views
     Converting Data Types
@@ -23,7 +23,7 @@ SELECT * FROM covidvaccinations;
 -- Total Deaths vs Cases
 
 SELECT
-	location,
+    location,
     MAX(total_cases) as TotalCasesToDate,
     -- alternatively: SUM(new_cases) as TotalCasesToDate,
     Max(total_deaths) as TotalDeathsToDate,
@@ -39,7 +39,7 @@ WHERE
 -- Total Cases vs Population
 
 SELECT
-	location,
+    location,
     MAX(total_cases) as TotalCasesToDate,
     population,
 	ROUND((SUM(new_cases)/population)*100,2) as PercentPopulationInfected
@@ -74,7 +74,7 @@ SELECT
 	YEAR(CAST(str_to_date(date, '%m/%d/%Y') AS date)) as year,
 	MONTH(CAST(str_to_date(date, '%m/%d/%Y') AS date)) as month,
 	MAX(total_cases) as TotalCases_Cumulative,
-    ROUND((MAX(total_cases)/population)*100,2) as PercentPopulationInfected_Cumulative    
+        ROUND((MAX(total_cases)/population)*100,2) as PercentPopulationInfected_Cumulative    
 FROM
 	coviddeaths
 WHERE
@@ -87,7 +87,7 @@ GROUP BY
 -- What percentage of United States population has recieved at least one Covid Vaccine?
 
 SELECT
-	coviddeaths.location,
+    coviddeaths.location,
     coviddeaths.population,
     MAX(people_vaccinated) as TotalPeopleVaccinated,
     ROUND((MAX(people_vaccinated)/population)*100,2) as VaccinationPercentageToDate
@@ -107,10 +107,10 @@ WHERE
 -- Return a table that shows the cumulative increase the United States population receiving a Covid vaccine and what % of the population has been vaccinated
 
 SELECT
-	YEAR(CAST(str_to_date(coviddeaths.date, '%m/%d/%Y') AS date)) as year,
+        YEAR(CAST(str_to_date(coviddeaths.date, '%m/%d/%Y') AS date)) as year,
 	MONTH(CAST(str_to_date(coviddeaths.date, '%m/%d/%Y') AS date)) as month,
-    MAX(covidvaccinations.people_vaccinated) as TotalPeopleVaccinated_Cumulative,
-    ROUND(MAX(covidvaccinations.people_vaccinated)/coviddeaths.population*100,2) as TotalVaccinationPercentage_Cumulative
+        MAX(covidvaccinations.people_vaccinated) as TotalPeopleVaccinated_Cumulative,
+        ROUND(MAX(covidvaccinations.people_vaccinated)/coviddeaths.population*100,2) as TotalVaccinationPercentage_Cumulative
 FROM
 	coviddeaths	
 JOIN
@@ -135,9 +135,9 @@ AS
 SELECT
 	YEAR(CAST(str_to_date(coviddeaths.date, '%m/%d/%Y') AS date)) as year,
 	MONTH(CAST(str_to_date(coviddeaths.date, '%m/%d/%Y') AS date)) as month,
-    coviddeaths.population,
-    MAX(covidvaccinations.people_vaccinated) as TotalPeopleVaccinated_Cumulative
-    -- ROUND(MAX(covidvaccinations.people_vaccinated)/coviddeaths.population*100,2) as TotalVaccinationPercentage_Cumulative
+        coviddeaths.population,
+        MAX(covidvaccinations.people_vaccinated) as TotalPeopleVaccinated_Cumulative
+        -- ROUND(MAX(covidvaccinations.people_vaccinated)/coviddeaths.population*100,2) as TotalVaccinationPercentage_Cumulative
 FROM
 	coviddeaths	
 JOIN
@@ -171,8 +171,8 @@ SELECT
 	YEAR(CAST(str_to_date(coviddeaths.date, '%m/%d/%Y') AS date)) as year,
 	MONTH(CAST(str_to_date(coviddeaths.date, '%m/%d/%Y') AS date)) as month,
 	coviddeaths.population,
-    MAX(covidvaccinations.people_vaccinated) as TotalPeopleVaccinated_Cumulative
-    -- ROUND((MAX(covidvaccinations.people_vaccinated))/coviddeaths.population*100,2) as TotalVaccinationPercentage_Cumulative
+        MAX(covidvaccinations.people_vaccinated) as TotalPeopleVaccinated_Cumulative
+        -- ROUND((MAX(covidvaccinations.people_vaccinated))/coviddeaths.population*100,2) as TotalVaccinationPercentage_Cumulative
 FROM
 	coviddeaths
 JOIN
@@ -197,8 +197,8 @@ Create View PercentPopulationVaccinated as
 SELECT
 	YEAR(CAST(str_to_date(coviddeaths.date, '%m/%d/%Y') AS date)) as year,
 	MONTH(CAST(str_to_date(coviddeaths.date, '%m/%d/%Y') AS date)) as month,
-    MAX(covidvaccinations.people_vaccinated) as TotalPeopleVaccinated_Cumulative,
-    ROUND(MAX(covidvaccinations.people_vaccinated)/coviddeaths.population*100,2) as TotalVaccinationPercentage_Cumulative
+        MAX(covidvaccinations.people_vaccinated) as TotalPeopleVaccinated_Cumulative,
+        ROUND(MAX(covidvaccinations.people_vaccinated)/coviddeaths.population*100,2) as TotalVaccinationPercentage_Cumulative
 FROM
 	coviddeaths	
 JOIN
@@ -217,14 +217,14 @@ GROUP BY
 -- After reviewing data for United States specifically in all queries above, now interested in global numbers
 
 -- Comparing by country
-	-- % of population infected
+    -- % of population infected
     -- % death if disease contracted
     -- % of population vaccinated
 SELECT 
 	coviddeaths.location,
-    coviddeaths.population,
+        coviddeaths.population,
 	ROUND((MAX(coviddeaths.total_cases)/coviddeaths.population)*100,2) as PercentPopulationInfected,
-    ROUND((MAX(coviddeaths.total_deaths)/MAX(coviddeaths.total_cases))*100,2) as DeathPercentageIfContracted,
+        ROUND((MAX(coviddeaths.total_deaths)/MAX(coviddeaths.total_cases))*100,2) as DeathPercentageIfContracted,
 	ROUND((MAX(covidvaccinations.people_vaccinated)/MAX(coviddeaths.population))*100,2) as PercentPopulationVaccinated
 FROM
 	coviddeaths
@@ -245,7 +245,7 @@ ORDER BY
 
 SELECT
 	coviddeaths.location,
-    YEAR(CAST(str_to_date(coviddeaths.date, '%m/%d/%Y') AS date)) as year,
+        YEAR(CAST(str_to_date(coviddeaths.date, '%m/%d/%Y') AS date)) as year,
 	MONTH(CAST(str_to_date(coviddeaths.date, '%m/%d/%Y') AS date)) as month,
 	ROUND((MIN(covidvaccinations.people_vaccinated)/coviddeaths.population)*100,2) as PercentPopulationVaccinated
 FROM
