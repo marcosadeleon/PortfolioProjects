@@ -1,9 +1,9 @@
 /*
 Housing Data Cleaning / Manipulation
 
-Skills used:
+Skills used include:
     Converting Data Types
-    Altering Table
+    Altering Tables
     Manipulating String Fields
     Removing Duplicates
 */
