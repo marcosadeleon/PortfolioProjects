@@ -19,58 +19,42 @@ ORDER BY saledate;
 -- SaleDate column currently as text in dd-mmm-yy format
 -- Would like to update column to be datetime field in default format of yyyy-mm-dd
 
-SELECT
-	CAST(str_to_date(SaleDate, '%d-%b-%y') AS date) as SaleDateConverted
-FROM
-	NashvilleHousing;
+SELECT CAST(str_to_date(SaleDate, '%d-%b-%y') AS date) as SaleDateConverted
+FROM NashvilleHousing;
 
-UPDATE
-	NashvilleHousing
-SET
-	SaleDate = CAST(str_to_date(SaleDate, '%d-%b-%y') AS date);
+UPDATE NashvilleHousing
+SET SaleDate = CAST(str_to_date(SaleDate, '%d-%b-%y') AS date);
    
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 -- OwnerAddress column is essentially interchangeable with PropertyAddress column now that this is the owner's new address
 -- Will use OwnerAddress column to fill blanks in PropertyAddress column
 
--- IS NULL returns no results
 SELECT *
-FROM
-	nashvillehousing    
-WHERE
-	PropertyAddress IS NULL;
+FROM nashvillehousing    
+WHERE PropertyAddress IS NULL;
 
+-- If NULL returns no results:
 SELECT *
-FROM
-	nashvillehousing    
-WHERE
-	PropertyAddress = '';
+FROM nashvillehousing    
+WHERE PropertyAddress = '';
 
-UPDATE
-	nashvillehousing
-SET
-	PropertyAddress = OwnerAddress
-WHERE
-	PropertyAddress = '';
+UPDATE nashvillehousing
+SET PropertyAddress = OwnerAddress
+WHERE PropertyAddress = '';
 
 -- Verify results before and after
-SELECT
-	COUNT(PropertyAddress)
-FROM
-	nashvillehousing
-WHERE
-        PropertyAddress = '';
+SELECT COUNT(PropertyAddress)
+FROM nashvillehousing
+WHERE PropertyAddress = '';
 
  -----------------------------------------------------------------------------------------------------------------------------------------------   
 
 -- Breaking out Address into individual columns (Address, City, State)
 -- Current format is 'Address, City, State' combined in one field
 
-SELECT
-	PropertyAddress
-FROM
-	nashvillehousing;
+SELECT PropertyAddress
+FROM nashvillehousing;
 
 SELECT
       -- returns all string up until the first ','
@@ -82,8 +66,7 @@ SELECT
     
     -- returns all string after the second ','
         SUBSTRING(PropertyAddress, Locate(',', PropertyAddress, Locate(',', PropertyAddress) + 1 ) + 1 , LENGTH(PropertyAddress)) as State
-FROM
-	NashvilleHousing;
+FROM NashvilleHousing;
     
 ALTER TABLE NashvilleHousing
 ADD PropertySplitAddress char(255),
@@ -109,16 +92,13 @@ SET PropertySplitState = SUBSTRING(PropertyAddress, Locate(',', PropertyAddress,
 -- Currently data has some "Yes/No" and some "Y/N" in SoldAsVacant
 -- Will standardize this column as "Yes/No"
 
-SELECT
-        Distinct(SoldAsVacant),
-        Count(SoldAsVacant)
-FROM
-	nashvillehousing
-GROUP BY
-	SoldAsVacant;
+SELECT Distinct(SoldAsVacant),
+       Count(SoldAsVacant)
+FROM nashvillehousing
+GROUP BY SoldAsVacant;
 
 Select SoldAsVacant,
-CASE
+	CASE
 	When SoldAsVacant = 'Y' THEN 'Yes'
 	When SoldAsVacant = 'N' THEN 'No'
 	ELSE SoldAsVacant
@@ -155,14 +135,9 @@ ORDER BY PropertyAddress;
 
 -- Delete Unused Columns
 
-ALTER TABLE
-	NashvilleHousing
-DROP COLUMN
-	OwnerAddress,
-DROP COLUMN
-    TaxDistrict,
-DROP COLUMN
-    PropertyAddress,
-DROP COLUMN
-    SaleDate;
+ALTER TABLE NashvilleHousing
+DROP COLUMN OwnerAddress,
+DROP COLUMN TaxDistrict,
+DROP COLUMN PropertyAddress,
+DROP COLUMN SaleDate;
 
